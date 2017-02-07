@@ -485,9 +485,6 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
     }
 
     /* Check if we have all the sections */
-    /* FIXME: p_section has just been added to the p_eit_decoder,
-     * Why do we have to explicitly check against it in dvbpsi_IsCompleteEIT() ?
-     */
     if (b_complete)
     {
         assert(p_eit_decoder->pf_eit_callback);
