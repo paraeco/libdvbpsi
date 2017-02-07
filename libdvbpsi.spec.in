@@ -78,6 +78,9 @@ rm -rf %buildroot
 %{_includedir}/*
 
 %changelog
+* Tue Feb 7 2017 Jean-Paul Saman <jpsaman@videolan.org - 1.3.1
+- bugfixes
+
 * Thu Mar 26 2015 Jean-Paul Saman <jpsaman@videolan.org> - 1.3.0
 - bugfixes and new descriptors
 
