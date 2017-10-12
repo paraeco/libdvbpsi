@@ -91,5 +91,15 @@
 #include "dvbpsi/mpeg/dr_24.h"
 #include "dvbpsi/custom/dr_83_eacem.h"
 #include "dvbpsi/custom/dr_8a_scte.h"
+#include "dvbpsi/ssu/ssu_dr_01.h"
+#include "dvbpsi/ssu/ssu_dr_02.h"
+#include "dvbpsi/ssu/ssu_dr_03.h"
+#include "dvbpsi/ssu/ssu_dr_04.h"
+#include "dvbpsi/ssu/ssu_dr_06.h"
+#include "dvbpsi/ssu/ssu_dr_07.h"
+#include "dvbpsi/ssu/ssu_dr_08.h"
+#include "dvbpsi/ssu/ssu_dr_09.h"
+#include "dvbpsi/ssu/ssu_dr_0a.h"
+#include "dvbpsi/ssu/ssu_dr_0b.h"
 
 #endif

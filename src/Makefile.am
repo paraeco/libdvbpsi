@@ -16,7 +16,7 @@ libdvbpsi_la_LDFLAGS = -version-info 11:0:0 -no-undefined
 pkginclude_HEADERS = dvbpsi.h psi.h descriptor.h demux.h \
                      tables/pat.h tables/pmt.h tables/sdt.h tables/eit.h \
                      tables/cat.h tables/nit.h tables/tot.h tables/sis.h \
-		     tables/bat.h tables/rst.h \
+		     tables/bat.h tables/rst.h tables/unt.h \
 		     tables/atsc_vct.h tables/atsc_stt.h \
 		     tables/atsc_eit.h tables/atsc_mgt.h \
 		     tables/atsc_ett.h \
@@ -92,6 +92,19 @@ customdrincludedir = $(pkgincludedir)/custom
 customdrinclude_HEADERS = descriptors/custom/dr_83_eacem.h \
                      descriptors/custom/dr_8a_scte.h
 
+ssudrincludedir = $(pkgincludedir)/ssu
+
+ssudrinclude_HEADERS = descriptors/ssu/ssu_dr_01.h \
+                     descriptors/ssu/ssu_dr_02.h \
+                     descriptors/ssu/ssu_dr_03.h \
+                     descriptors/ssu/ssu_dr_04.h \
+                     descriptors/ssu/ssu_dr_06.h \
+                     descriptors/ssu/ssu_dr_07.h \
+                     descriptors/ssu/ssu_dr_08.h \
+                     descriptors/ssu/ssu_dr_09.h \
+                     descriptors/ssu/ssu_dr_0a.h \
+                     descriptors/ssu/ssu_dr_0b.h
+
 typesincludedir = $(pkgincludedir)/types
 
 typesinclude_HEADERS = descriptors/types/aac_profile.h
@@ -153,7 +166,17 @@ descriptors_src = descriptors/mpeg/dr_02.c \
 		  descriptors/atsc/dr_a0.c \
 		  descriptors/atsc/dr_a1.c \
 		  descriptors/custom/dr_83_eacem.c \
-		  descriptors/custom/dr_8a_scte.c
+		  descriptors/custom/dr_8a_scte.c \
+		  descriptors/ssu/ssu_dr_01.c \
+		  descriptors/ssu/ssu_dr_02.c \
+		  descriptors/ssu/ssu_dr_03.c \
+		  descriptors/ssu/ssu_dr_04.c \
+		  descriptors/ssu/ssu_dr_06.c \
+		  descriptors/ssu/ssu_dr_07.c \
+		  descriptors/ssu/ssu_dr_08.c \
+		  descriptors/ssu/ssu_dr_09.c \
+		  descriptors/ssu/ssu_dr_0a.c \
+		  descriptors/ssu/ssu_dr_0b.c
 
 tables_src = tables/pat.c tables/pat_private.h \
              tables/pmt.c tables/pmt_private.h \
@@ -165,6 +188,7 @@ tables_src = tables/pat.c tables/pat_private.h \
              tables/sis.c tables/sis_private.h \
 	     tables/bat.c tables/bat_private.h \
 	     tables/rst.c tables/rst_private.h \
+             tables/unt.c tables/unt_private.h \
 	     tables/atsc_vct.c tables/atsc_vct.h \
 	     tables/atsc_stt.c tables/atsc_stt.h \
 	     tables/atsc_eit.c tables/atsc_eit.h \
