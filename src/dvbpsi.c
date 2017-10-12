@@ -499,6 +499,73 @@ bool dvbpsi_packet_push(dvbpsi_t *p_dvbpsi, const uint8_t* p_data)
     }
     return true;
 }
+
+/*****************************************************************************
+ * dvbpsi_section_push
+ *****************************************************************************/
+/*!
+ * \fn bool dvbpsi_section_push(dvbpsi_t *p_dvbpsi, uint8_t *p_data)
+ * \brief Injection of a PSI section into a PSI section demux.
+ * \param p_dvbpsi handle to dvbpsi with attached decoder
+ * \param p_data pointer to a PSI section data
+ * \return true when section has been handled, false on error.
+ *
+ * Injection of a PSI section into a PSI section demux.
+ */
+bool dvbpsi_section_push(dvbpsi_t *p_dvbpsi, const uint8_t *p_data)
+{
+    size_t len;
+    bool has_crc32;
+    dvbpsi_psi_section_t* p_section;
+    dvbpsi_decoder_t *p_decoder = p_dvbpsi->p_decoder;
+
+    assert(p_decoder);
+    assert(p_data);
+
+    /* Allocation of the structure */
+    p_section = dvbpsi_NewPSISection(p_decoder->i_section_max_size);
+    if (NULL == p_section)
+        return false;
+
+    len = 3 + (((uint16_t)(p_data[1] & 0xf)) << 8 | p_data[2]);
+    memcpy(p_section->p_data, p_data, len);
+    p_section->p_payload_end = p_section->p_data + len;
+
+    /* PSI section is complete */
+    p_section->i_table_id = p_section->p_data[0];
+    p_section->b_syntax_indicator = p_section->p_data[1] & 0x80;
+    p_section->b_private_indicator = p_section->p_data[1] & 0x40;
+
+    /* Update the end of the payload if CRC_32 is present */
+    has_crc32 = dvbpsi_has_CRC32(p_section);
+    if (p_section->b_syntax_indicator || has_crc32)
+        p_section->p_payload_end -= 4;
+
+    /* PSI section is valid */
+    if (p_section->b_syntax_indicator)
+    {
+	p_section->i_extension =  (p_section->p_data[3] << 8) | p_section->p_data[4];
+	p_section->i_version = (p_section->p_data[5] & 0x3e) >> 1;
+	p_section->b_current_next = p_section->p_data[5] & 0x1;
+	p_section->i_number = p_section->p_data[6];
+	p_section->i_last_number = p_section->p_data[7];
+	p_section->p_payload_start = p_section->p_data + 8;
+    }
+    else
+    {
+	p_section->i_extension = 0;
+	p_section->i_version = 0;
+	p_section->b_current_next = true;
+	p_section->i_number = 0;
+	p_section->i_last_number = 0;
+	p_section->p_payload_start = p_section->p_data + 3;
+    }
+
+    if (p_decoder->pf_gather)
+	p_decoder->pf_gather(p_dvbpsi, p_section);
+
+    return true;
+}
 #undef DVBPSI_INVALID_CC
 
 /*****************************************************************************

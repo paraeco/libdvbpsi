@@ -220,6 +220,20 @@ typedef void (* dvbpsi_callback_gather_t)(dvbpsi_t *p_dvbpsi,  /*!< pointer to d
                             dvbpsi_psi_section_t* p_section);  /*!< pointer to psi section */
 
 /*****************************************************************************
+ * dvbpsi_section_push
+ *****************************************************************************/
+/*!
+ * \fn bool dvbpsi_section_push(dvbpsi_t *p_dvbpsi, uint8_t *p_data)
+ * \brief Injection of a PSI section into a PSI section demux.
+ * \param p_dvbpsi handle to dvbpsi with attached decoder
+ * \param p_data pointer to a PSI section data
+ * \return true when section has been handled, false on error.
+ *
+ * Injection of a PSI section into a PSI section demux.
+ */
+bool dvbpsi_section_push(dvbpsi_t *p_dvbpsi, const uint8_t *p_data);
+
+/*****************************************************************************
  * DVBPSI_DECODER_COMMON
  *****************************************************************************/
 /*!
