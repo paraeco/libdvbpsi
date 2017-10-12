@@ -197,7 +197,7 @@ static inline bool dvbpsi_has_CRC32(dvbpsi_psi_section_t *p_section)
 }
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

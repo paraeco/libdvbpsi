@@ -107,7 +107,7 @@ __attribute__((deprecated,unused)) static dvbpsi_hierarchy_dr_t* dvbpsi_DecodeHi
 #endif
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

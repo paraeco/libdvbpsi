@@ -105,7 +105,7 @@ __attribute__((deprecated,unused)) static dvbpsi_max_bitrate_dr_t* dvbpsi_Decode
 #endif
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

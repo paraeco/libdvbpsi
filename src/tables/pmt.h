@@ -254,7 +254,7 @@ dvbpsi_descriptor_t* dvbpsi_pmt_es_descriptor_add(dvbpsi_pmt_es_t* p_es,
 dvbpsi_psi_section_t* dvbpsi_pmt_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_pmt_t* p_pmt);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

@@ -113,7 +113,7 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenLCNDr (
 #endif
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // _DR_83_H

@@ -254,7 +254,7 @@ dvbpsi_descriptor_t *dvbpsi_sdt_service_descriptor_add(
 dvbpsi_psi_section_t *dvbpsi_sdt_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_sdt_t * p_sdt);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

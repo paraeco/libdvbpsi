@@ -124,7 +124,7 @@ typedef enum dvbpsi_aac_profile_and_level_s
 } dvbpsi_aac_profile_and_level_t;
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

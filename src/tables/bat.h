@@ -261,7 +261,7 @@ dvbpsi_descriptor_t *dvbpsi_bat_ts_descriptor_add(dvbpsi_bat_ts_t *p_bat,
 dvbpsi_psi_section_t *dvbpsi_bat_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_bat_t * p_bat);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

@@ -196,7 +196,7 @@ dvbpsi_descriptor_t* dvbpsi_tot_descriptor_add(dvbpsi_tot_t* p_tot,
 dvbpsi_psi_section_t* dvbpsi_tot_sections_generate(dvbpsi_t* p_dvbpsi, dvbpsi_tot_t* p_tot);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

@@ -187,7 +187,7 @@ void dvbpsi_atsc_EmptyEIT(dvbpsi_atsc_eit_t *p_eit);
 void dvbpsi_atsc_DeleteEIT(dvbpsi_atsc_eit_t *p_eit);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

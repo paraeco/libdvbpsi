@@ -153,7 +153,7 @@ void dvbpsi_atsc_EmptySTT(dvbpsi_atsc_stt_t *p_stt);
 void dvbpsi_atsc_DeleteSTT(dvbpsi_atsc_stt_t *p_stt);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

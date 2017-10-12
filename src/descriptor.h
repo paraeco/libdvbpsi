@@ -172,7 +172,7 @@ bool dvbpsi_IsDescriptorDecoded(dvbpsi_descriptor_t *p_descriptor);
 void *dvbpsi_DuplicateDecodedDescriptor(void *p_decoded, ssize_t i_size);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

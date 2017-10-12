@@ -180,7 +180,7 @@ dvbpsi_descriptor_t* dvbpsi_cat_descriptor_add(dvbpsi_cat_t* p_cat,
 dvbpsi_psi_section_t* dvbpsi_cat_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_cat_t* p_cat);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

@@ -175,7 +175,7 @@ void dvbpsi_atsc_EmptyETT(dvbpsi_atsc_ett_t *p_ett);
 void dvbpsi_atsc_DeleteETT(dvbpsi_atsc_ett_t *p_ett);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

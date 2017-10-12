@@ -261,7 +261,7 @@ dvbpsi_psi_section_t* dvbpsi_nit_sections_generate(dvbpsi_t* p_dvbpsi, dvbpsi_ni
                                             uint8_t i_table_id);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

@@ -73,7 +73,7 @@ __attribute__((deprecated,unused)) static dvbpsi_default_authority_dr_t* dvbpsi_
 #endif
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

@@ -87,7 +87,7 @@ __attribute__((deprecated,unused)) static dvbpsi_frequency_list_dr_t* dvbpsi_Dec
 #endif
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

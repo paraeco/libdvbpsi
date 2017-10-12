@@ -74,7 +74,7 @@ enum dvbpsi_msg_level
     DVBPSI_MSG_NONE  = -1, /*!< No messages */
     DVBPSI_MSG_ERROR =  0, /*!< Error messages only */
     DVBPSI_MSG_WARN  =  1, /*!< Error and Warning messages */
-    DVBPSI_MSG_DEBUG =  2, /*!< Error, warning and debug messages */
+    DVBPSI_MSG_DEBUG =  2  /*!< Error, warning and debug messages */
 };
 /*!
  * \typedef enum dvbpsi_msg_level dvbpsi_msg_level_t
@@ -351,7 +351,7 @@ bool dvbpsi_decoder_psi_section_add(dvbpsi_decoder_t *p_decoder, dvbpsi_psi_sect
 bool dvbpsi_decoder_present(dvbpsi_t *p_dvbpsi);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

@@ -182,7 +182,7 @@ void dvbpsi_atsc_EmptyMGT(dvbpsi_atsc_mgt_t *p_mgt);
 void dvbpsi_atsc_DeleteMGT(dvbpsi_atsc_mgt_t *p_mgt);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

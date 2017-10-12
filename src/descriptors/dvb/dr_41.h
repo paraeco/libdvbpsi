@@ -108,7 +108,7 @@ __attribute__((deprecated,unused)) static dvbpsi_service_list_dr_t* dvbpsi_Decod
 #endif
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

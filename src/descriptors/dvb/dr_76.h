@@ -133,7 +133,7 @@ __attribute__((deprecated,unused)) static dvbpsi_content_id_dr_t* dvbpsi_DecodeC
 #endif
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

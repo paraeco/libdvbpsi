@@ -109,7 +109,7 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenSystemC
 #endif
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else

@@ -209,7 +209,7 @@ void dvbpsi_atsc_EmptyVCT(dvbpsi_atsc_vct_t *p_vct);
 void dvbpsi_atsc_DeleteVCT(dvbpsi_atsc_vct_t *p_vct);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif

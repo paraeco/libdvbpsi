@@ -201,7 +201,7 @@ dvbpsi_rst_event_t* dvbpsi_rst_event_add(dvbpsi_rst_t* p_rst,
 dvbpsi_psi_section_t* dvbpsi_rst_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_rst_t* p_rst);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #else
