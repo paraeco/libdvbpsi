@@ -90,7 +90,9 @@ atscdrinclude_HEADERS = descriptors/atsc/dr_81.h \
 customdrincludedir = $(pkgincludedir)/custom
 
 customdrinclude_HEADERS = descriptors/custom/dr_83_eacem.h \
-                     descriptors/custom/dr_8a_scte.h
+                     descriptors/custom/dr_8a_scte.h \
+		     descriptors/custom/user_dr_93.h \
+		     descriptors/custom/user_dr_d0.h
 
 ssudrincludedir = $(pkgincludedir)/ssu
 
@@ -167,6 +169,8 @@ descriptors_src = descriptors/mpeg/dr_02.c \
 		  descriptors/atsc/dr_a1.c \
 		  descriptors/custom/dr_83_eacem.c \
 		  descriptors/custom/dr_8a_scte.c \
+		  descriptors/custom/user_dr_93.c \
+		  descriptors/custom/user_dr_d0.c \
 		  descriptors/ssu/ssu_dr_01.c \
 		  descriptors/ssu/ssu_dr_02.c \
 		  descriptors/ssu/ssu_dr_03.c \
