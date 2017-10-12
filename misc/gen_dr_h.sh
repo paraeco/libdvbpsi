@@ -54,15 +54,13 @@ cd $DR_H_DIR
 for dir in atsc dvb mpeg custom; do
 	cd $dir || { echo >&2 "$dir not found - tree incomplete" && exit 1; }
 	for h in *.h; do
-		echo "#include \"$dir/$h\""
+		echo "#include \"dvbpsi/$dir/$h\""
 	done
 	cd ..
 done
 
 cat <<EOF
 
-#else
-#error "Multiple inclusions of dr.h"
 #endif
 EOF
 
