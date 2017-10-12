@@ -114,6 +114,4 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenCableDe
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_44.h"
 #endif

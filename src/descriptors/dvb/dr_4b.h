@@ -127,6 +127,4 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenNVODRef
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_4b.h"
 #endif /* DR_4B_H_ */

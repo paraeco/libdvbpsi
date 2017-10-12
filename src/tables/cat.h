@@ -183,7 +183,5 @@ dvbpsi_psi_section_t* dvbpsi_cat_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_ca
 }
 #endif
 
-#else
-#error "Multiple inclusions of cat.h"
 #endif
 

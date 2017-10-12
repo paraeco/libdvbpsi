@@ -467,7 +467,5 @@ dvbpsi_psi_section_t *dvbpsi_sis_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_si
 }
 #endif
 
-#else
-#error "Multiple inclusions of sis.h"
 #endif
 

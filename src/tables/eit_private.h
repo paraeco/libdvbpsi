@@ -65,7 +65,5 @@ void dvbpsi_eit_sections_decode(dvbpsi_t *p_dvbpsi,
                                 dvbpsi_eit_t* p_eit,
                                 dvbpsi_psi_section_t* p_section);
 
-#else
-#error "Multiple inclusions of eit_private.h"
 #endif
 

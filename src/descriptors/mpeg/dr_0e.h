@@ -108,7 +108,5 @@ __attribute__((deprecated,unused)) static dvbpsi_max_bitrate_dr_t* dvbpsi_Decode
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_0e.h"
 #endif
 

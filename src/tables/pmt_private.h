@@ -63,7 +63,5 @@ void dvbpsi_pmt_sections_gather(dvbpsi_t *p_dvbpsi,
 void dvbpsi_pmt_sections_decode(dvbpsi_pmt_t* p_pmt,
                                 dvbpsi_psi_section_t* p_section);
 
-#else
-#error "Multiple inclusions of pmt_private.h"
 #endif
 

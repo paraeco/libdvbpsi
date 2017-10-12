@@ -112,7 +112,5 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenStuffin
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_42.h"
 #endif
 

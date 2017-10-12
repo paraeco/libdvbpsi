@@ -111,6 +111,4 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenCompone
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_50.h"
 #endif /* DR_50_H_ */

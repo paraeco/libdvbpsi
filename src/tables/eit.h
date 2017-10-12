@@ -300,7 +300,5 @@ dvbpsi_psi_section_t *dvbpsi_eit_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_ei
 }
 #endif
 
-#else
-#error "Multiple inclusions of eit.h"
 #endif
 

@@ -257,6 +257,4 @@ dvbpsi_psi_section_t* dvbpsi_pmt_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_pm
 }
 #endif
 
-#else
-#error "Multiple inclusions of pmt.h"
 #endif

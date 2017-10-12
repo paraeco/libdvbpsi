@@ -199,6 +199,4 @@ dvbpsi_psi_section_t* dvbpsi_tot_sections_generate(dvbpsi_t* p_dvbpsi, dvbpsi_to
 }
 #endif
 
-#else
-#error "Multiple inclusions of tot.h"
 #endif

@@ -257,6 +257,4 @@ dvbpsi_psi_section_t *dvbpsi_sdt_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_sd
 }
 #endif
 
-#else
-#error "Multiple inclusions of sdt.h"
 #endif

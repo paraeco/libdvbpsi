@@ -368,6 +368,4 @@ bool dvbpsi_decoder_present(dvbpsi_t *p_dvbpsi);
 }
 #endif
 
-#else
-#error "Multiple inclusions of dvbpsi.h"
 #endif

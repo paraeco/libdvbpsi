@@ -208,6 +208,4 @@ dvbpsi_psi_section_t* dvbpsi_pat_sections_generate(dvbpsi_t *p_dvbpsi,
 }
 #endif
 
-#else
-#error "Multiple inclusions of pat.h"
 #endif

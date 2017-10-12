@@ -54,7 +54,5 @@ void dvbpsi_warning(dvbpsi_t *dvbpsi, const char *src, const char *fmt, ...);
 void dvbpsi_debug(dvbpsi_t *dvbpsi, const char *src, const char *fmt, ...);
 #endif
 
-#else
-#error "Multiple inclusions of dvbpsi_private.h"
 #endif
 

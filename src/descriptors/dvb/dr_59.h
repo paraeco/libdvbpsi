@@ -138,7 +138,5 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenSubtitl
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_59.h"
 #endif
 

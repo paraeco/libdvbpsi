@@ -254,6 +254,4 @@ void dvbpsi_DetachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t
 }
 #endif
 
-#else
-#error "Multiple inclusions of demux.h"
 #endif

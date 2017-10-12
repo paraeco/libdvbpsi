@@ -113,7 +113,5 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenISO639D
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_0a.h"
 #endif
 

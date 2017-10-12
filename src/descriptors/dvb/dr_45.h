@@ -167,6 +167,4 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenVBIData
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_45.h"
 #endif

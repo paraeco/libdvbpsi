@@ -66,7 +66,5 @@ void dvbpsi_nit_sections_gather(dvbpsi_t* p_dvbpsi,
 void dvbpsi_nit_sections_decode(dvbpsi_nit_t* p_nit,
                                dvbpsi_psi_section_t* p_section);
 
-#else
-#error "Multiple inclusions of nit_private.h"
 #endif
 

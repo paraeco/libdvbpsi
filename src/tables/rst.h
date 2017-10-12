@@ -204,6 +204,4 @@ dvbpsi_psi_section_t* dvbpsi_rst_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_rs
 }
 #endif
 
-#else
-#error "Multiple inclusions of rst.h"
 #endif

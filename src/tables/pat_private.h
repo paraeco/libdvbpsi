@@ -60,7 +60,5 @@ void dvbpsi_pat_sections_gather(dvbpsi_t* p_dvbpsi, dvbpsi_psi_section_t* p_sect
 bool dvbpsi_pat_sections_decode(dvbpsi_pat_t* p_pat,
                                 dvbpsi_psi_section_t* p_section);
 
-#else
-#error "Multiple inclusions of pat_private.h"
 #endif
 

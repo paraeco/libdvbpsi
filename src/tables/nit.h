@@ -264,7 +264,5 @@ dvbpsi_psi_section_t* dvbpsi_nit_sections_generate(dvbpsi_t* p_dvbpsi, dvbpsi_ni
 }
 #endif
 
-#else
-#error "Multiple inclusions of nit.h"
 #endif
 

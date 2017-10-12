@@ -109,7 +109,5 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenAStream
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_03.h"
 #endif
 

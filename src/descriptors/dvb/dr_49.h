@@ -116,6 +116,4 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenCountry
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_49.h"
 #endif /* DR_49_H_ */

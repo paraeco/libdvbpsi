@@ -128,6 +128,4 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenLinkage
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_4a.h"
 #endif /* DR_4A_H_ */

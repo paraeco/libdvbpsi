@@ -106,6 +106,4 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenTimeShi
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_4f.h"
 #endif /* DR_4F_H_ */

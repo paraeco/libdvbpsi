@@ -62,7 +62,5 @@ void dvbpsi_sdt_sections_gather(dvbpsi_t *p_dvbpsi,
 void dvbpsi_sdt_sections_decode(dvbpsi_sdt_t* p_sdt,
                                 dvbpsi_psi_section_t* p_section);
 
-#else
-#error "Multiple inclusions of sdt_private.h"
 #endif
 

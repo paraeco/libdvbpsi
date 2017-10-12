@@ -59,9 +59,6 @@ void dvbpsi_rst_sections_gather(dvbpsi_t* p_dvbpsi, dvbpsi_psi_section_t* p_sect
 void dvbpsi_rst_sections_decode(dvbpsi_rst_t* p_rst,
                               dvbpsi_psi_section_t* p_section);
 
-
-#else
-#error "Multiple inclusions of rst_private.h"
 #endif
 
 

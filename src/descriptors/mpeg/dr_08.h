@@ -108,7 +108,5 @@ __attribute__((deprecated,unused)) static dvbpsi_vwindow_dr_t* dvbpsi_DecodeVWin
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_08.h"
 #endif
 

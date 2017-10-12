@@ -84,6 +84,4 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenIBPDr (
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_12.h"
 #endif

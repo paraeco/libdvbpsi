@@ -111,6 +111,4 @@ __attribute__((deprecated,unused)) static dvbpsi_service_list_dr_t* dvbpsi_Decod
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_41.h"
 #endif /* DR_41_H_ */

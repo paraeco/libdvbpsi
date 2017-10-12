@@ -116,7 +116,5 @@ __attribute__((deprecated,unused)) static dvbpsi_descriptor_t* dvbpsi_GenService
 }
 #endif
 
-#else
-#error "Multiple inclusions of dr_48.h"
 #endif
 

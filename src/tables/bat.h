@@ -264,6 +264,4 @@ dvbpsi_psi_section_t *dvbpsi_bat_sections_generate(dvbpsi_t *p_dvbpsi, dvbpsi_ba
 }
 #endif
 
-#else
-#error "Multiple inclusions of bat.h"
 #endif

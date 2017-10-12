@@ -175,7 +175,5 @@ void *dvbpsi_DuplicateDecodedDescriptor(void *p_decoded, ssize_t i_size);
 }
 #endif
 
-#else
-#error "Multiple inclusions of descriptor.h"
 #endif
 
