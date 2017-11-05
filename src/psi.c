@@ -181,7 +181,6 @@ void dvbpsi_DeletePSISections(dvbpsi_psi_section_t *p_section)
         free(p_section);
         p_section = p_next;
     }
-    p_section = NULL;
 }
 
 /*****************************************************************************

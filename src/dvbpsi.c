@@ -97,6 +97,7 @@ void *dvbpsi_decoder_new(dvbpsi_callback_gather_t pf_gather,
     p_decoder->i_last_section_number = 0;
     p_decoder->p_sections = NULL;
     p_decoder->b_complete_header = false;
+    p_decoder->p_root = NULL;
 
     return p_decoder;
 }

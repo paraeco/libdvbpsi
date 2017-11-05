@@ -259,6 +259,7 @@ bool dvbpsi_section_push(dvbpsi_t *p_dvbpsi, const uint8_t *p_data);
     dvbpsi_callback_gather_t  pf_gather;/*!< PSI decoder's callback */            \
     int      i_section_max_size;   /*!< Max size of a section for this decoder */ \
     int      i_need;               /*!< Bytes needed */                           \
+    void *   p_root;               /*!< POSIX tsearch based tree */               \
 /**@}*/
 
 /*****************************************************************************

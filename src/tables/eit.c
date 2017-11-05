@@ -40,6 +40,7 @@
 #endif
 
 #include <assert.h>
+#include <search.h>
 
 #include "../dvbpsi.h"
 #include "../dvbpsi_private.h"
@@ -48,6 +49,29 @@
 #include "../demux.h"
 #include "eit.h"
 #include "eit_private.h"
+
+
+static void dvbpsi_ReInitEIT(dvbpsi_eit_decoder_t* p_decoder, const bool b_force);
+static int node_compare(const void *node1, const void *node2);
+
+static int node_compare(const void *node1, const void *node2)
+{
+    uint32_t id1, id2;
+    const dvbpsi_eit_t * p_eit;
+
+    p_eit = &((const dvbpsi_eit_decoder_t *)node1)->current_eit;        
+    id1 = ((uint32_t)p_eit->i_network_id << 16) + p_eit->i_ts_id;
+    
+    p_eit = &((const dvbpsi_eit_decoder_t *)node2)->current_eit;
+    id2 = ((uint32_t)p_eit->i_network_id << 16) + p_eit->i_ts_id;
+
+    if (id1 > id2)
+        return 1;
+    else if (id1 < id2)
+        return -1;
+    else
+        return 0;
+}
 
 /*****************************************************************************
  * dvbpsi_eit_attach
@@ -124,9 +148,20 @@ void dvbpsi_eit_detach(dvbpsi_t *p_dvbpsi, uint8_t i_table_id,
 
     dvbpsi_eit_decoder_t* p_eit_decoder;
     p_eit_decoder = (dvbpsi_eit_decoder_t*)p_subdec->p_decoder;
-    if (p_eit_decoder->p_building_eit)
+    if (p_eit_decoder->p_building_eit) {
         dvbpsi_eit_delete(p_eit_decoder->p_building_eit);
-    p_eit_decoder->p_building_eit = NULL;
+        p_eit_decoder->p_building_eit = NULL;
+    }
+
+    while (NULL != p_eit_decoder->p_root) {
+        dvbpsi_eit_decoder_t * p_decoder = *(dvbpsi_eit_decoder_t **)p_eit_decoder->p_root;
+	if (NULL == p_decoder)
+	    break;
+
+        tdelete(p_decoder, &p_eit_decoder->p_root, node_compare);
+        dvbpsi_ReInitEIT(p_decoder, true);
+        dvbpsi_decoder_delete(DVBPSI_DECODER(p_decoder));
+    }
 
     dvbpsi_DetachDemuxSubDecoder(p_demux, p_subdec);
     dvbpsi_DeleteDemuxSubDecoder(p_subdec);
@@ -198,9 +233,10 @@ void dvbpsi_eit_empty(dvbpsi_eit_t* p_eit)
  *****************************************************************************/
 void dvbpsi_eit_delete(dvbpsi_eit_t* p_eit)
 {
-    if (p_eit)
+    if (p_eit) {
         dvbpsi_eit_empty(p_eit);
-    free(p_eit);
+        free(p_eit);
+    }
 }
 
 /*****************************************************************************
@@ -405,7 +441,6 @@ static bool dvbpsi_AddSectionEIT(dvbpsi_t *p_dvbpsi, dvbpsi_eit_decoder_t *p_eit
 
         if (p_eit_decoder->p_building_eit == NULL)
             return false;
-        p_eit_decoder->i_last_section_number = p_section->i_last_number;
     }
 
     /* Add to linked list of sections */
@@ -426,21 +461,41 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
 {
     assert(p_dvbpsi);
     assert(p_dvbpsi->p_decoder);
-
-    const uint8_t i_table_id = (p_section->i_table_id >= 0x4e &&
-                                p_section->i_table_id <= 0x6f) ?
-                                    p_section->i_table_id : 0x4e;
-
-    if (!dvbpsi_CheckPSISection(p_dvbpsi, p_section, i_table_id, "EIT decoder"))
-    {
-        dvbpsi_DeletePSISections(p_section);
-        return;
-    }
+    assert(p_private_decoder);
 
     /* We have a valid EIT section */
     dvbpsi_demux_t *p_demux = (dvbpsi_demux_t *) p_dvbpsi->p_decoder;
     dvbpsi_eit_decoder_t* p_eit_decoder
                         = (dvbpsi_eit_decoder_t*)p_private_decoder;
+
+    uint16_t onid = ((uint16_t)(p_section->p_payload_start[2]) << 8) | p_section->p_payload_start[3];
+    uint16_t tsid = ((uint16_t)(p_section->p_payload_start[0]) << 8) | p_section->p_payload_start[1];
+    uint16_t sid = p_section->i_extension;
+
+    p_eit_decoder->current_eit.i_network_id = onid;
+    p_eit_decoder->current_eit.i_ts_id = tsid;
+    void * p;
+    
+    p = tfind(p_eit_decoder, &p_private_decoder->p_root, node_compare);
+    if (NULL != p) {
+    	    p_eit_decoder = *(dvbpsi_eit_decoder_t **)p;
+    }
+    else {
+        p_eit_decoder = (dvbpsi_eit_decoder_t*) dvbpsi_decoder_new(NULL, 0, true, sizeof(dvbpsi_eit_decoder_t));
+        if (p_eit_decoder == NULL) {
+            dvbpsi_DeletePSISections(p_section);
+            return;
+	}
+	*p_eit_decoder = *(dvbpsi_eit_decoder_t *)p_private_decoder;
+	p_eit_decoder->p_building_eit = NULL;
+	p_eit_decoder->current_eit.p_first_event = NULL;
+	p_eit_decoder->p_sections = NULL;
+	if (NULL == tsearch(p_eit_decoder, &p_private_decoder->p_root, node_compare)) {
+            dvbpsi_DeletePSISections(p_section);
+	    dvbpsi_decoder_delete(p_eit_decoder);
+            return;
+	}
+    }
 
     /* TS discontinuity check */
     if (p_demux->b_discontinuity)
@@ -451,25 +506,23 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
     }
     else
     {
+        if (   (p_eit_decoder->b_current_valid)
+            && (p_eit_decoder->current_eit.i_version == p_section->i_version)
+            && (p_eit_decoder->current_eit.b_current_next == p_section->b_current_next))
+        {
+            /* Don't decode since this version is already decoded */
+            dvbpsi_debug(p_dvbpsi, "EIT decoder",
+                         "ignoring already decoded section %d",
+                         p_section->i_number);
+            dvbpsi_DeletePSISections(p_section);
+            return;
+        }
+
         /* Perform a few sanity checks */
         if (p_eit_decoder->p_building_eit)
         {
             if (dvbpsi_CheckEIT(p_dvbpsi, p_eit_decoder, p_section))
                 dvbpsi_ReInitEIT(p_eit_decoder, true);
-        }
-        else
-        {
-            if (   (p_eit_decoder->b_current_valid)
-                && (p_eit_decoder->current_eit.i_version == p_section->i_version)
-                && (p_eit_decoder->current_eit.b_current_next == p_section->b_current_next))
-            {
-                /* Don't decode since this version is already decoded */
-                dvbpsi_debug(p_dvbpsi, "EIT decoder",
-                             "ignoring already decoded section %d",
-                             p_section->i_number);
-                dvbpsi_DeletePSISections(p_section);
-                return;
-            }
         }
     }
 
