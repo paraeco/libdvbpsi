@@ -38,11 +38,31 @@
 #endif
 
 #include <assert.h>
+#include <search.h>
 
 #include "dvbpsi.h"
 #include "dvbpsi_private.h"
 #include "psi.h"
 #include "demux.h"
+
+
+static int node_compare(const void *node1, const void *node2);
+
+static int node_compare(const void *node1, const void *node2)
+{
+    uint32_t id1, id2;
+
+    id1 = ((const dvbpsi_demux_subdec_t *)node1)->i_id;
+    id2 = ((const dvbpsi_demux_subdec_t *)node2)->i_id;
+
+    if (id1 > id2)
+        return 1;
+    else if (id1 < id2)
+        return -1;
+    else {
+        return 0;
+   }
+}
 
 /*****************************************************************************
  * dvbpsi_AttachDemux
@@ -80,6 +100,7 @@ dvbpsi_demux_subdec_t * dvbpsi_demuxGetSubDec(dvbpsi_demux_t * p_demux,
                                               uint8_t i_table_id,
                                               uint16_t i_extension)
 {
+#if 0
     uint32_t i_id = (uint32_t)i_table_id << 16 |(uint32_t)i_extension;
     dvbpsi_demux_subdec_t * p_subdec = p_demux->p_first_subdec;
 
@@ -90,6 +111,16 @@ dvbpsi_demux_subdec_t * dvbpsi_demuxGetSubDec(dvbpsi_demux_t * p_demux,
 
         p_subdec = p_subdec->p_next;
     }
+#else
+    dvbpsi_demux_subdec_t subdec;
+    dvbpsi_demux_subdec_t * p_subdec = NULL;
+    
+    subdec.i_id = (uint32_t)i_table_id << 16 |(uint32_t)i_extension;
+    void * p = tfind(&subdec, &p_demux->p_root, node_compare);
+    if (NULL != p) {
+    	    p_subdec = *(dvbpsi_demux_subdec_t **)p;
+    }
+#endif
 
     return p_subdec;
 }
@@ -136,6 +167,7 @@ void dvbpsi_DetachDemux(dvbpsi_t *p_dvbpsi)
     assert(p_dvbpsi->p_decoder);
 
     dvbpsi_demux_t *p_demux = (dvbpsi_demux_t *)p_dvbpsi->p_decoder;
+#if 0
     dvbpsi_demux_subdec_t* p_subdec = p_demux->p_first_subdec;
 
     while (p_subdec)
@@ -148,6 +180,20 @@ void dvbpsi_DetachDemux(dvbpsi_t *p_dvbpsi)
                                      p_subdec_temp->i_id & 0xFFFF);
         else free(p_subdec_temp);
     }
+#else
+    while (NULL != p_demux->p_root) {
+        dvbpsi_demux_subdec_t * p_subdec = *(dvbpsi_demux_subdec_t **)p_demux->p_root;
+	if (NULL == p_subdec)
+	    break;
+	
+        if (p_subdec->pf_detach)
+            p_subdec->pf_detach(p_dvbpsi, (p_subdec->i_id >> 16) & 0xFFFF,
+                                     p_subdec->i_id & 0xFFFF);
+
+        dvbpsi_DetachDemuxSubDecoder(p_demux, p_subdec);
+        dvbpsi_DeleteDemuxSubDecoder(p_subdec);
+    }
+#endif
 
     dvbpsi_decoder_delete(p_dvbpsi->p_decoder);
     p_dvbpsi->p_decoder = NULL;
@@ -191,10 +237,10 @@ void dvbpsi_DeleteDemuxSubDecoder(dvbpsi_demux_subdec_t *p_subdec)
 {
     if (!p_subdec)
         return;
+
     /* FIXME: find a saner way to release private decoder resources */
     dvbpsi_decoder_delete(p_subdec->p_decoder);
     free(p_subdec);
-    p_subdec = NULL;
 }
 
 /*****************************************************************************
@@ -208,8 +254,12 @@ void dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t
     if (!p_demux || !p_subdec)
         abort();
 
+#if 0
     p_subdec->p_next = p_demux->p_first_subdec;
     p_demux->p_first_subdec = p_subdec;
+#else
+    if (NULL != tsearch(p_subdec, &p_demux->p_root, node_compare))
+#endif
 }
 
 /*****************************************************************************
@@ -223,6 +273,7 @@ void dvbpsi_DetachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t
     if (!p_demux || !p_subdec)
         abort();
 
+#if 0
     assert(p_demux->p_first_subdec);
 
     dvbpsi_demux_subdec_t** pp_prev_subdec;
@@ -231,4 +282,7 @@ void dvbpsi_DetachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t
         pp_prev_subdec = &(*pp_prev_subdec)->p_next;
 
     *pp_prev_subdec = p_subdec->p_next;
+#else
+    tdelete(p_subdec, &p_demux->p_root, node_compare);
+#endif
 }
