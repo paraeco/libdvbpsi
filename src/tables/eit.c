@@ -368,6 +368,9 @@ static bool dvbpsi_IsCompleteEIT(dvbpsi_eit_decoder_t* p_eit_decoder, dvbpsi_psi
 
     bool b_complete = false;
 
+    if (p_section->i_last_number == 0)
+        return true;
+
     /* As there may be gaps in the section_number fields (see below), we
      * have to wait until we have received a section_number twice or
      * until we have a received a section_number which is
@@ -479,6 +482,10 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
     p = tfind(p_eit_decoder, &p_private_decoder->p_root, node_compare);
     if (NULL != p) {
     	    p_eit_decoder = *(dvbpsi_eit_decoder_t **)p;
+        if (p_eit_decoder == NULL) {
+            dvbpsi_DeletePSISections(p_section);
+            return;
+	}
     }
     else {
         p_eit_decoder = (dvbpsi_eit_decoder_t*) dvbpsi_decoder_new(NULL, 0, true, sizeof(dvbpsi_eit_decoder_t));
@@ -486,13 +493,13 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
             dvbpsi_DeletePSISections(p_section);
             return;
 	}
-	*p_eit_decoder = *(dvbpsi_eit_decoder_t *)p_private_decoder;
-	p_eit_decoder->p_building_eit = NULL;
-	p_eit_decoder->current_eit.p_first_event = NULL;
-	p_eit_decoder->p_sections = NULL;
+        p_eit_decoder->current_eit.i_network_id = onid;
+        p_eit_decoder->current_eit.i_ts_id = tsid;
+	p_eit_decoder->pf_eit_callback = ((dvbpsi_eit_decoder_t *)p_private_decoder)->pf_eit_callback;
+	p_eit_decoder->p_cb_data = ((dvbpsi_eit_decoder_t *)p_private_decoder)->p_cb_data;
 	if (NULL == tsearch(p_eit_decoder, &p_private_decoder->p_root, node_compare)) {
             dvbpsi_DeletePSISections(p_section);
-	    dvbpsi_decoder_delete(p_eit_decoder);
+	    dvbpsi_decoder_delete(DVBPSI_DECODER(p_eit_decoder));
             return;
 	}
     }
@@ -536,6 +543,9 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
         dvbpsi_DeletePSISections(p_section);
         return;
     }
+
+    if (false == b_complete)
+        b_complete = dvbpsi_IsCompleteEIT(p_eit_decoder, p_section);
 
     /* Check if we have all the sections */
     if (b_complete)
