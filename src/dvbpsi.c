@@ -523,12 +523,12 @@ bool dvbpsi_section_push(dvbpsi_t *p_dvbpsi, const uint8_t *p_data)
     assert(p_decoder);
     assert(p_data);
 
+    len = 3 + (((uint16_t)(p_data[1] & 0xf)) << 8 | p_data[2]);
     /* Allocation of the structure */
-    p_section = dvbpsi_NewPSISection(p_decoder->i_section_max_size);
+    p_section = dvbpsi_NewPSISection(len);
     if (NULL == p_section)
         return false;
 
-    len = 3 + (((uint16_t)(p_data[1] & 0xf)) << 8 | p_data[2]);
     memcpy(p_section->p_data, p_data, len);
     p_section->p_payload_end = p_section->p_data + len;
 
