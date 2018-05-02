@@ -259,7 +259,9 @@ void dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t
     p_subdec->p_next = p_demux->p_first_subdec;
     p_demux->p_first_subdec = p_subdec;
 #else
-    if (NULL != tsearch(p_subdec, &p_demux->p_root, node_compare))
+    if (NULL != tsearch(p_subdec, &p_demux->p_root, node_compare)) {
+
+    }
 #endif
 }
 

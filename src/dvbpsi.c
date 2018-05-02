@@ -98,6 +98,7 @@ void *dvbpsi_decoder_new(dvbpsi_callback_gather_t pf_gather,
     p_decoder->p_sections = NULL;
     p_decoder->b_complete_header = false;
     p_decoder->p_root = NULL;
+    vector_init(&p_decoder->sections);
 
     return p_decoder;
 }
@@ -114,6 +115,7 @@ void dvbpsi_decoder_reset(dvbpsi_decoder_t* p_decoder, const bool b_force)
         p_decoder->b_current_valid = false;
 
     /* Clear the section array */
+    vector_clear(&p_decoder->sections);
     dvbpsi_DeletePSISections(p_decoder->p_sections);
     p_decoder->p_sections = NULL;
 }
@@ -127,6 +129,14 @@ bool dvbpsi_decoder_psi_sections_completed(dvbpsi_decoder_t* p_decoder)
 
     bool b_complete = false;
 
+#if 1
+    dvbpsi_psi_section_t * p_section = vector_at(&p_decoder->sections, 0);
+    if (NULL != p_section) {
+        size_t size = vector_size(&p_decoder->sections);
+        if (size == (p_section->i_last_number + 1))
+            b_complete = true;
+    }
+#else  
     dvbpsi_psi_section_t *p = p_decoder->p_sections;
     unsigned int prev_nr = 0;
     while (p)
@@ -139,6 +149,7 @@ bool dvbpsi_decoder_psi_sections_completed(dvbpsi_decoder_t* p_decoder)
         p = p->p_next;
         prev_nr++;
     }
+#endif
 
     return b_complete;
 }
@@ -152,6 +163,13 @@ bool dvbpsi_decoder_psi_section_add(dvbpsi_decoder_t *p_decoder, dvbpsi_psi_sect
     assert(p_section);
     assert(p_section->p_next == NULL);
 
+    bool b_overwrite = false;
+    
+    vector_insert(&p_decoder->sections, p_section->i_number, p_section);
+    size_t size = vector_size(&p_decoder->sections);
+    if (size == (p_section->i_last_number + 1))
+        b_overwrite = true;
+
     /* Empty list */
     if (!p_decoder->p_sections)
     {
@@ -163,7 +181,6 @@ bool dvbpsi_decoder_psi_section_add(dvbpsi_decoder_t *p_decoder, dvbpsi_psi_sect
     /* Insert in right place */
     dvbpsi_psi_section_t *p = p_decoder->p_sections;
     dvbpsi_psi_section_t *p_prev = NULL;
-    bool b_overwrite = false;
 
     while (p)
     {
@@ -227,6 +244,18 @@ void dvbpsi_decoder_delete(dvbpsi_decoder_t *p_decoder)
 {
     assert(p_decoder);
 
+#if 0
+    while(1) {
+        dvbpsi_psi_section_t * p_section;
+        p_section = (dvbpsi_psi_section_t *)vector_pop(&p_decoder->sections);
+	if (NULL == p_section)
+            break;
+
+	/*dvbpsi_DeletePSISections(p_section);*/
+    }
+#else
+    vector_clear(&p_decoder->sections);
+#endif
     if (p_decoder->p_sections)
     {
         dvbpsi_DeletePSISections(p_decoder->p_sections);

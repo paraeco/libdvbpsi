@@ -35,6 +35,8 @@
 #ifndef _DVBPSI_DVBPSI_H_
 #define _DVBPSI_DVBPSI_H_
 
+#include "cvector.h"
+
 #define DVBPSI_VERSION      2.0.0              /*!< Human readible DVBPSI version*/
 #define DVBPSI_VERSION_INT  ((2<<16)+(0<<8)+0) /*!< Machine readible DVBPSI version */
 
@@ -260,6 +262,7 @@ bool dvbpsi_section_push(dvbpsi_t *p_dvbpsi, const uint8_t *p_data);
     int      i_section_max_size;   /*!< Max size of a section for this decoder */ \
     int      i_need;               /*!< Bytes needed */                           \
     void *   p_root;               /*!< POSIX tsearch based tree */               \
+    vector_t sections;             /*!< POSIX tsearch emulated vector */          \
 /**@}*/
 
 /*****************************************************************************

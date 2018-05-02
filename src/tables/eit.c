@@ -497,6 +497,7 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
         p_eit_decoder->current_eit.i_ts_id = tsid;
 	p_eit_decoder->pf_eit_callback = ((dvbpsi_eit_decoder_t *)p_private_decoder)->pf_eit_callback;
 	p_eit_decoder->p_cb_data = ((dvbpsi_eit_decoder_t *)p_private_decoder)->p_cb_data;
+	p_eit_decoder->p_building_eit = NULL;
 	if (NULL == tsearch(p_eit_decoder, &p_private_decoder->p_root, node_compare)) {
             dvbpsi_DeletePSISections(p_section);
 	    dvbpsi_decoder_delete(DVBPSI_DECODER(p_eit_decoder));
@@ -533,8 +534,6 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
         }
     }
 
-    bool b_complete = dvbpsi_IsCompleteEIT(p_eit_decoder, p_section);
-
     /* Add section to EIT */
     if (!dvbpsi_AddSectionEIT(p_dvbpsi, p_eit_decoder, p_section))
     {
@@ -544,8 +543,7 @@ void dvbpsi_eit_sections_gather(dvbpsi_t *p_dvbpsi, dvbpsi_decoder_t *p_private_
         return;
     }
 
-    if (false == b_complete)
-        b_complete = dvbpsi_IsCompleteEIT(p_eit_decoder, p_section);
+    bool b_complete = dvbpsi_IsCompleteEIT(p_eit_decoder, p_section);
 
     /* Check if we have all the sections */
     if (b_complete)
