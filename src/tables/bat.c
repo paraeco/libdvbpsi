@@ -88,7 +88,12 @@ bool dvbpsi_bat_attach(dvbpsi_t *p_dvbpsi, uint8_t i_table_id,
     }
 
     /* Attach the subtable decoder to the demux */
-    dvbpsi_AttachDemuxSubDecoder(p_demux, p_subdec);
+    int rc = dvbpsi_AttachDemuxSubDecoder(p_demux, p_subdec);
+    if (rc != 0)
+    {
+        dvbpsi_decoder_delete(DVBPSI_DECODER(p_bat_decoder));
+        return false;
+    }
 
     /* BAT decoder information */
     p_bat_decoder->pf_bat_callback = pf_callback;

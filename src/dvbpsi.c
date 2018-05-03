@@ -165,9 +165,8 @@ bool dvbpsi_decoder_psi_section_add(dvbpsi_decoder_t *p_decoder, dvbpsi_psi_sect
 
     bool b_overwrite = false;
     
-    vector_insert(&p_decoder->sections, p_section->i_number, p_section);
-    size_t size = vector_size(&p_decoder->sections);
-    if (size == (p_section->i_last_number + 1))
+    int rc = vector_insert(&p_decoder->sections, p_section->i_number, p_section);
+    if (rc > 0)
         b_overwrite = true;
 
     /* Empty list */
@@ -175,7 +174,7 @@ bool dvbpsi_decoder_psi_section_add(dvbpsi_decoder_t *p_decoder, dvbpsi_psi_sect
     {
         p_decoder->p_sections = p_section;
         p_section->p_next = NULL;
-        return false;
+        return b_overwrite;
     }
 
     /* Insert in right place */

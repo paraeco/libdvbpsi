@@ -112,7 +112,12 @@ bool dvbpsi_atsc_AttachEIT(dvbpsi_t *p_dvbpsi, uint8_t i_table_id, uint16_t i_ex
     }
 
     /* Attach the subtable decoder to the demux */
-    dvbpsi_AttachDemuxSubDecoder(p_demux, p_subdec);
+    int rc = dvbpsi_AttachDemuxSubDecoder(p_demux, p_subdec);
+    if (rc != 0)
+    {
+        dvbpsi_decoder_delete(DVBPSI_DECODER(p_eit_decoder));
+        return false;
+    }
 
     /* EIT decoder information */
     p_eit_decoder->pf_eit_callback = pf_callback;

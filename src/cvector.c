@@ -107,31 +107,37 @@ error:
 
 int vector_insert(vector_t * p_vector, size_t pos, void * p_data)
 {
+	int rc = -1;
 	vector_node * p_node;
 	void * p;
 
 	if (NULL == p_vector)
-		return -1;
+		goto error;
 
 	p_node = malloc(sizeof(vector_node));
 	if (NULL == p_node)
-		return -1;
+		goto error;
 
 	p_node->pos = pos;
 	p_node->p_data = p_data;
 	p = tsearch(p_node, &p_vector->p_root, node_compare);
-	/* p is never a NULL pointer */
+	if (NULL == p)
+		goto error;  /* out of memory */
+
 	if (p_node != *(vector_node **)p) {
 		/* a vector_node already exists */
 		free (p_node);
 		p_node = *(vector_node **)p;
 		p_node->p_data = p_data;
+		rc = 1;  /*replace*/
 	}
 	else {
 		p_vector->size ++;
+		rc = 0;  /*add*/
 	}
 	
-	return 0;
+error:
+	return rc;
 }
 
 void vector_erase(vector_t * p_vector, size_t pos)

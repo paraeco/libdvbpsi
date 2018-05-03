@@ -89,7 +89,12 @@ bool dvbpsi_sis_attach(dvbpsi_t *p_dvbpsi, uint8_t i_table_id, uint16_t i_extens
     }
 
     /* Attach the subtable decoder to the demux */
-    dvbpsi_AttachDemuxSubDecoder(p_demux, p_subdec);
+    int rc = dvbpsi_AttachDemuxSubDecoder(p_demux, p_subdec);
+    if (rc != 0)
+    {
+        dvbpsi_decoder_delete(DVBPSI_DECODER(p_sis_decoder));
+        return false;
+    }
 
     /* SIS decoder information */
     p_sis_decoder->pf_sis_callback = pf_callback;

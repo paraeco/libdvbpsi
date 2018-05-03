@@ -90,7 +90,12 @@ bool dvbpsi_nit_attach(dvbpsi_t* p_dvbpsi, uint8_t i_table_id,
     }
 
     /* Attach the subtable decoder to the demux */
-    dvbpsi_AttachDemuxSubDecoder(p_demux, p_subdec);
+    int rc = dvbpsi_AttachDemuxSubDecoder(p_demux, p_subdec);
+    if (rc != 0)
+    {
+        dvbpsi_decoder_delete(DVBPSI_DECODER(p_nit_decoder));
+        return false;
+    }
 
     /* NIT decoder information */
     p_nit_decoder->i_network_id = i_extension;

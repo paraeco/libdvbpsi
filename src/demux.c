@@ -59,9 +59,8 @@ static int node_compare(const void *node1, const void *node2)
         return 1;
     else if (id1 < id2)
         return -1;
-    else {
+    else
         return 0;
-   }
 }
 
 /*****************************************************************************
@@ -247,7 +246,7 @@ void dvbpsi_DeleteDemuxSubDecoder(dvbpsi_demux_subdec_t *p_subdec)
 /*****************************************************************************
  * dvbpsi_AttachDemuxSubDecoder
  *****************************************************************************/
-void dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t *p_subdec)
+int dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t *p_subdec)
 {
     assert(p_demux);
     assert(p_subdec);
@@ -258,10 +257,24 @@ void dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t
 #if 0
     p_subdec->p_next = p_demux->p_first_subdec;
     p_demux->p_first_subdec = p_subdec;
+    return 0;
 #else
-    if (NULL != tsearch(p_subdec, &p_demux->p_root, node_compare)) {
+    int rc = -1;
+    void * p;
+    p = tsearch(p_subdec, &p_demux->p_root, node_compare);
+    if (NULL == p)
+        goto error; /* out of memory */
 
+    if (p_subdec != *(dvbpsi_demux_subdec_t **)p) {
+        /* a subdecoder already exists */
+        dvbpsi_DeleteDemuxSubDecoder(p_subdec);
     }
+    else {
+        rc =0;
+    }
+
+error:
+    return rc;
 #endif
 }
 
