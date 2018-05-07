@@ -228,14 +228,14 @@ void dvbpsi_DeleteDemuxSubDecoder(dvbpsi_demux_subdec_t *p_subdec);
  * dvbpsi_AttachDemuxSubDecoder
  *****************************************************************************/
 /*!
- * \fn __attribute__((deprecated)) void dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t *p_subdec)
+ * \fn __attribute__((deprecated)) int dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t *p_subdec)
  * \brief Attach a subtable decoder to the given demux handle.
  * \param p_demux pointer to dvbpsi_demux_t
  * \param p_subdec pointer to dvbpsi_demux_subdec_t
- * \return nothing
+ * \return 0: OK, -1: failed
  */
 __attribute__((deprecated))
-void dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t *p_subdec);
+int dvbpsi_AttachDemuxSubDecoder(dvbpsi_demux_t *p_demux, dvbpsi_demux_subdec_t *p_subdec);
 
 /*****************************************************************************
  * dvbpsi_DetachDemuxSubDecoder
